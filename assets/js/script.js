@@ -18,13 +18,23 @@ function generatePassword () {
     do {
         passwordLength = parseInt(prompt("Enter password length (8-128 characters):"));
     } while (isNaN(passwordLength) || passwordLength < 8 || passwordLength > 128);
-    var password = "";
+    
 
+    var includeLowercase = confirm("Include lowercase letters?");
+    var includeUppercase = confirm("Include uppercase letters?");
     var includeSpecialChars = confirm("Include special characters?");
     var includeNumbers = confirm("Include numbers?");
-    var includeUppercase = confirm("Include uppercase letters?");
 
-    var chars = lowercaseChars;
+    if (!includeLowercase && !includeUppercase && !includeSpecialChars && !includeNumbers) {
+        alert("Please select at least one option.");
+        return;
+    }
+    
+
+    var chars = "";
+    if (includeLowercase) {
+        chars += lowercaseChars;
+    }
     if(includeSpecialChars) {
         chars += specialChars;
     }
@@ -34,7 +44,8 @@ function generatePassword () {
     if (includeUppercase) {
         chars += uppercaseChars
     }
-
+    
+    var password = "";
     for (var i = 0; i < passwordLength; i++) {
         var randomNumber = Math.floor(Math.random() * chars.length);
         password += chars.substring(randomNumber, randomNumber +1 );
